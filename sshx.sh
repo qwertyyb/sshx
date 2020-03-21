@@ -1,9 +1,9 @@
 ###
  # @Author: qwertyyb <qwertyyb@foxmail.com>
  # @LastEditors: qwertyyb <qwertyyb@foxmail.com>
- # @FilePath: /undefined/Users/marchyang/bash/sshx.sh
+ # @FilePath: /sshx/sshx.sh
  # @Date: 2020-03-15 08:19:07
- # @LastEditTime: 2020-03-21 18:38:31
+ # @LastEditTime: 2020-03-21 18:53:26
  ###
 #!/usr/bin/expect
 
@@ -114,7 +114,6 @@ expect {
         "Y" { puts [set_password $argv $new_password] }
       }
     }
+    interact
   }
 }
-
-interact
