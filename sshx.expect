@@ -1,9 +1,9 @@
 ###
  # @Author: qwertyyb <qwertyyb@foxmail.com>
  # @LastEditors: qwertyyb <qwertyyb@foxmail.com>
- # @FilePath: /sshx/sshx.sh
+ # @FilePath: /sshx/sshx.expect
  # @Date: 2020-03-15 08:19:07
- # @LastEditTime: 2020-03-21 18:53:26
+ # @LastEditTime: 2020-03-22 00:25:22
  ###
 #!/usr/bin/expect
 
@@ -14,10 +14,12 @@ proc get_password {args} {
   }
   set fp [open "~/.ssh/sshxrc" r]
   while { [gets $fp data] >= 0 } {
-    regexp {(.+),\s*(.+)} $data a b c
-    if {$b == $args} {
-      close $fp
-      return $c
+    if { $data != "" } {
+      regexp {(.+),\s*(.+)} $data a b c
+      if {$b == $args} {
+        close $fp
+        return $c
+      }
     }
   }
   close $fp
@@ -32,13 +34,14 @@ proc set_password {args password} {
   set new_content ""
   set inserted false
   while { [gets $fp data] >= 0 } {
-    # puts $data
-    regexp {(.+),\s*(.+)} $data a b c
-    if { $b == $args && !$inserted } {
-      append new_content "$args,$password\n"
-      set inserted true
-    } elseif { $b != $args } {
-      append new_content "$args,$password\n"
+    if { $data != "" } {
+      regexp {(.+),\s*(.+)} $data a b c
+      if { $b == $args && !$inserted } {
+        append new_content "$args,$password\n"
+        set inserted true
+      } elseif { $b != $args } {
+        append new_content "$args,$password\n"
+      }
     }
   }
   close $fp
